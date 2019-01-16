@@ -24,7 +24,7 @@ module SearchObject
 
           options[:enum] = argument.type.values.keys if argument.type.is_a? GraphQL::EnumType
 
-          super(name, options, &block)
+          super(argument.name.to_sym, options, &block)
         end
 
         def types
@@ -78,7 +78,7 @@ module SearchObject
 
         def build_argument(name, options)
           argument = GraphQL::Argument.new
-          argument.name = name.to_s
+          argument.name = name.to_s.camelize(:lower)
           argument.type = options.fetch(:type) { raise MissingTypeDefinitionError, name }
           argument.default_value = options[:default] if options.key? :default
           argument.description = options[:description] if options.key? :description
