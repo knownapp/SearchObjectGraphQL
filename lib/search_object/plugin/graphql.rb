@@ -78,6 +78,7 @@ module SearchObject
 
         def build_argument(name, options)
           argument = GraphQL::Argument.new
+          argument.name = name.to_s.camelize(:lower)
           if argument.name == "sort"
             argument.type = GraphQL::STRING_TYPE
             argument.default_value = "id desc"
