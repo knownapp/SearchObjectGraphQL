@@ -78,10 +78,15 @@ module SearchObject
 
         def build_argument(name, options)
           argument = GraphQL::Argument.new
-          argument.name = name.to_s.camelize(:lower)
-          argument.type = options.fetch(:type) { raise MissingTypeDefinitionError, name }
-          argument.default_value = options[:default] if options.key? :default
-          argument.description = options[:description] if options.key? :description
+          if argument.name == "sort"
+            argument.type = GraphQL::STRING_TYPE
+            argument.default_value = "id desc"
+            argument.description = "Sorting"
+          else
+            argument.type = options.fetch(:type) { raise MissingTypeDefinitionError, name }
+            argument.default_value = options[:default] if options.key? :default
+            argument.description = options[:description] if options.key? :description
+          end
           argument
         end
       end
